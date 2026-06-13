@@ -17,7 +17,7 @@ export default function Projects() {
   const isInView = useInView(ref, { once: true, margin: "-80px" });
 
   return (
-    <section className="bg-[#050505] py-24 px-8 md:px-16" id="projects">
+    <section className="py-24 px-8 md:px-16" id="projects" style={{background:"transparent"}}>
       <div className="max-w-screen-xl mx-auto">
 
         {/* Header */}

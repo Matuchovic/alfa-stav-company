@@ -12,7 +12,7 @@ export default function ContactCTA() {
     <section
       ref={ref}
       className="flex flex-col md:flex-row"
-      style={{ borderTop: "0.5px solid rgba(255,255,255,0.06)", background: "#080808" }}
+      style={{ borderTop: "0.5px solid rgba(255,255,255,0.06)", background: "rgba(5,5,5,0.75)" }}
       id="contact"
     >
       {/* Left — CTA */}
@@ -56,7 +56,7 @@ export default function ContactCTA() {
         animate={isInView ? { opacity: 1, x: 0 } : {}}
         transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
         className="w-full md:w-[380px] p-10 md:p-14 flex flex-col justify-center"
-        style={{ background: "#0A0A0A" }}
+        style={{ background: "rgba(5,5,5,0.6)" }}
       >
         {/* Logo */}
         <div className="flex items-center gap-3 mb-7">

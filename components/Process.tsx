@@ -36,7 +36,7 @@ export default function Process() {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section className="py-24 px-8 md:px-16" style={{ background: "#060606" }} id="process" ref={ref}>
+    <section className="py-24 px-8 md:px-16" style={{ background: "transparent" }} id="process" ref={ref}>
       <div className="max-w-screen-xl mx-auto">
         {/* Header */}
         <motion.div
@@ -92,7 +92,7 @@ export default function Process() {
                   {/* Circle */}
                   <motion.div
                     className="w-[72px] h-[72px] border border-[rgba(212,175,55,0.3)] rounded-full flex items-center justify-center mx-auto mb-5 relative cursor-pointer"
-                    style={{ background: "#060606" }}
+                    style={{ background: "rgba(5,5,5,0.5)" }}
                     whileHover={{
                       borderColor: "#D4AF37",
                       backgroundColor: "rgba(212,175,55,0.06)",

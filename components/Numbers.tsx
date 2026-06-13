@@ -70,7 +70,7 @@ export default function Numbers() {
     <section
       ref={ref}
       className="relative overflow-hidden"
-      style={{ background: "#080808", borderTop: "0.5px solid rgba(255,255,255,0.06)", borderBottom: "0.5px solid rgba(255,255,255,0.06)" }}
+      style={{ background: "rgba(5,5,5,0.72)", borderTop: "0.5px solid rgba(255,255,255,0.06)", borderBottom: "0.5px solid rgba(255,255,255,0.06)" }}
     >
       {/* Background architectural lines */}
       <div

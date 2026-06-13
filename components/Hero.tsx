@@ -372,7 +372,7 @@ export default function Hero() {
     <section
       ref={heroRef}
       className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: "#050505" }}
+      style={{ background: "transparent" }}
     >
       {/* Hero photo */}
       <div className="absolute inset-0" style={{ zIndex: 1 }}>

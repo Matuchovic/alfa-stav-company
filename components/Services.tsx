@@ -497,7 +497,7 @@ function ServiceCard({ index, name, desc, icon, canvasRef, isInView }: CardProps
       initial={{ opacity: 0, y: 40 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.12, ease: [0.16, 1, 0.3, 1] }}
-      className="group relative bg-[#080808] overflow-hidden cursor-pointer"
+      className="group relative overflow-hidden cursor-pointer" style={{background:"rgba(5,5,5,0.65)"}}
       whileHover={{ y: -4, zIndex: 10 }}
     >
       <div className="absolute top-0 left-0 h-[2px] w-0 group-hover:w-full transition-all duration-500 z-10"
@@ -554,7 +554,7 @@ export default function Services() {
   ];
 
   return (
-    <section className="bg-[#050505] py-24 px-8 md:px-16" id="services">
+    <section className="py-24 px-8 md:px-16" id="services" style={{background:"transparent"}}>
       <div className="max-w-screen-xl mx-auto">
         <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="mb-12">

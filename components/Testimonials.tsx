@@ -52,7 +52,7 @@ export default function Testimonials() {
 
   return (
     <section
-      className="bg-[#050505] py-24 px-8 md:px-16"
+      className="py-24 px-8 md:px-16" style={{background:"transparent"}}
       id="testimonials"
       ref={ref}
     >
@@ -79,7 +79,7 @@ export default function Testimonials() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="relative overflow-hidden"
             style={{
-              background: "#0E0E0E",
+              background: "rgba(8,8,8,0.75)",
               border: "0.5px solid rgba(255,255,255,0.07)",
             }}
           >

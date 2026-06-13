@@ -8,13 +8,9 @@ export default function ParallaxBackground() {
   useEffect(() => {
     const el = imgRef.current;
     if (!el) return;
-
     const onScroll = () => {
-      const scrolled = window.scrollY;
-      // slow parallax — 0.25 ratio = subtle depth
-      el.style.transform = `translateY(${scrolled * 0.25}px)`;
+      el.style.transform = `translateY(${window.scrollY * 0.22}px)`;
     };
-
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -25,33 +21,32 @@ export default function ParallaxBackground() {
       style={{ zIndex: 0 }}
       aria-hidden="true"
     >
-      {/* Parallax photo layer */}
+      {/* Parallax photo */}
       <div
         ref={imgRef}
-        className="absolute inset-0 will-change-transform"
+        className="absolute will-change-transform"
         style={{
-          top: "-25%",
-          height: "150%",
+          inset: 0,
+          top: "-28%",
+          height: "156%",
           backgroundImage: "url('/par-alfa.png')",
           backgroundSize: "cover",
-          backgroundPosition: "center top",
+          backgroundPosition: "center 30%",
           backgroundRepeat: "no-repeat",
         }}
       />
 
-      {/* Heavy black overlay — keeps sections dark & readable */}
+      {/* Dark overlay — lighter now so photo shows through sections */}
       <div
         className="absolute inset-0"
-        style={{
-          background: "rgba(5,5,5,0.88)",
-        }}
+        style={{ background: "rgba(5,5,5,0.78)" }}
       />
 
-      {/* Subtle vignette edges */}
+      {/* Bottom fade to black */}
       <div
         className="absolute inset-0"
         style={{
-          background: "radial-gradient(ellipse at 50% 30%, transparent 20%, rgba(5,5,5,0.55) 100%)",
+          background: "linear-gradient(180deg,rgba(5,5,5,0.3) 0%,transparent 25%,transparent 75%,rgba(5,5,5,0.5) 100%)",
         }}
       />
     </div>
