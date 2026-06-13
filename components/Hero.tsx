@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { useCounter } from "@/hooks/useScrollReveal";
+
 
 /* ── DATA ── */
 const WORDS = [
@@ -282,7 +282,6 @@ export default function Hero() {
   const particleCanvasRef = useRef<HTMLCanvasElement>(null);
   const sparksCanvasRef = useRef<HTMLCanvasElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
-  const counterRef = useCounter(25, 1800);
   const { burst } = useSparks(sparksCanvasRef);
 
   /* Particle canvas */
@@ -470,20 +469,6 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.5 }}
-          className="absolute right-8 md:right-16 bottom-24 text-right"
-        >
-          <div className="font-black leading-none tracking-tight" style={{ fontSize: "clamp(48px,8vw,80px)", color: "#D4AF37", textShadow: "0 0 60px rgba(212,175,55,0.5)" }}>
-            <span ref={counterRef}>0</span>+
-          </div>
-          <div className="text-[9px] tracking-[0.22em] uppercase mt-1" style={{ color: "rgba(154,154,154,0.7)" }}>LET ZKUŠENOSTÍ</div>
-          <div className="text-[7px] tracking-[0.18em] uppercase mt-1" style={{ color: "rgba(154,154,154,0.3)" }}>STAVÍME KVALITNĚ OD ROKU 1998</div>
-          <div className="mt-3 h-px w-full" style={{ background: "linear-gradient(to left,rgba(212,175,55,0.4),transparent)" }} />
-        </motion.div>
       </div>
 
       {/* Scroll indicator */}
