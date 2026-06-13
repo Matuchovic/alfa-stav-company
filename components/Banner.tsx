@@ -61,7 +61,7 @@ export default function Banner() {
       </motion.div>
 
       {/* ── Content ── */}
-      <div className="relative z-10 text-center px-8 max-w-screen-xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-8 max-w-screen-xl mx-auto">
 
         {/* Line 1 */}
         <div className="overflow-hidden mb-1">

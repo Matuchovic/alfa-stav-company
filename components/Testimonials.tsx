@@ -52,7 +52,7 @@ export default function Testimonials() {
 
   return (
     <section
-      className="py-24 px-8 md:px-16" style={{background:"transparent"}}
+      className="py-16 sm:py-24 px-4 sm:px-8 md:px-16" style={{background:"transparent"}}
       id="testimonials"
       ref={ref}
     >

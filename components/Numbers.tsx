@@ -18,7 +18,7 @@ function StatItem({ stat, index, isInView }: { stat: typeof stats[0]; index: num
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.15, ease: [0.16, 1, 0.3, 1] }}
-      className="relative flex flex-col items-center justify-center py-12 px-8 group cursor-default overflow-hidden"
+      className="relative flex flex-col items-center justify-center py-8 sm:py-12 px-4 sm:px-8 group cursor-default overflow-hidden"
     >
       {/* Hover glow */}
       <div

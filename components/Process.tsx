@@ -36,14 +36,14 @@ export default function Process() {
   const isInView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <section className="py-24 px-8 md:px-16" style={{ background: "transparent" }} id="process" ref={ref}>
+    <section className="py-16 sm:py-24 px-4 sm:px-8 md:px-16" style={{ background: "transparent" }} id="process" ref={ref}>
       <div className="max-w-screen-xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16"
+          className="mb-8 sm:mb-16"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-5 h-px bg-[#D4AF37]" />
@@ -71,7 +71,7 @@ export default function Process() {
             transition={{ duration: 1.2, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-4">
             {steps.map((step, i) => {
               const Icon = step.icon;
               return (

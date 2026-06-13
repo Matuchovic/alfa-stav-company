@@ -554,10 +554,10 @@ export default function Services() {
   ];
 
   return (
-    <section className="py-24 px-8 md:px-16" id="services" style={{background:"transparent"}}>
+    <section className="py-16 sm:py-24 px-4 sm:px-8 md:px-16" id="services" style={{background:"transparent"}}>
       <div className="max-w-screen-xl mx-auto">
         <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="mb-12">
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }} className="mb-8 sm:mb-12">
           <div className="flex items-center gap-3 mb-3">
             <div className="w-5 h-px bg-[#D4AF37]" />
             <span className="text-[9px] tracking-[0.28em] text-[#D4AF37] uppercase">CO DĚLÁME</span>
