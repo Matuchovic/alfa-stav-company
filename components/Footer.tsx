@@ -12,8 +12,8 @@ const footerLinks = {
 export default function Footer() {
   return (
     <footer
-      className="" style={{background:"rgba(5,5,5,0.88)"}}
-      style={{ borderTop: "0.5px solid rgba(255,255,255,0.06)" }}
+      className=""
+      style={{ background: "rgba(5,5,5,0.88)", borderTop: "0.5px solid rgba(255,255,255,0.06)" }}
     >
       {/* Links grid */}
       <div className="max-w-screen-xl mx-auto px-8 md:px-16 py-16">
