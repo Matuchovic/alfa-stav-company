@@ -67,7 +67,7 @@ export default function ContactCTA() {
           </div>
           <div>
             <div className="text-[12px] font-black tracking-[0.1em]">ALFA</div>
-            <div className="text-[7px] font-normal tracking-[0.2em] text-[#9A9A9A]">STAV COMPANY</div>
+            <div className="text-[7px] font-normal tracking-[0.2em] text-[#9A9A9A]">STAV GROUP</div>
           </div>
         </div>
 
@@ -82,8 +82,8 @@ export default function ContactCTA() {
           {[
             { Icon: MapPin, text: "Mladá Boleslav a okolí" },
             { Icon: Phone, text: "+420 123 456 789" },
-            { Icon: Mail, text: "info@alfastav.cz" },
-            { Icon: Globe, text: "www.alfastav.cz" },
+            { Icon: Mail, text: "info@alfastavgroup.cz" },
+            { Icon: Globe, text: "www.alfastavgroup.cz" },
           ].map(({ Icon, text }) => (
             <div key={text} className="flex items-center gap-3">
               <Icon size={13} className="text-[#D4AF37] flex-shrink-0" strokeWidth={1.5} />

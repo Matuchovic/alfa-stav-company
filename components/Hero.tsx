@@ -130,7 +130,7 @@ export default function Hero() {
         <img
           ref={imgRef}
           src="/alfahero.png"
-          alt="ALFA STAV COMPANY — luxusní střecha při západu slunce"
+          alt="ALFA STAV GROUP — luxusní střecha při západu slunce"
           className="absolute inset-0 w-full h-full object-cover object-center"
           style={{ transform: "scale(1.12)", transformOrigin: "center 40%" }}
         />
@@ -192,7 +192,7 @@ export default function Hero() {
           <motion.div variants={itemVariants} className="flex items-center gap-3 mb-5">
             <div className="w-6 h-px bg-[#D4AF37]" />
             <span className="text-[9px] tracking-[0.3em] text-[#D4AF37] uppercase font-semibold">
-              ALFA STAV COMPANY
+              ALFA STAV GROUP
             </span>
           </motion.div>
 

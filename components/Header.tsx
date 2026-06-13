@@ -1,24 +1,161 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Home } from "lucide-react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 
 const navLinks = ["Domů", "Služby", "Realizace", "O nás", "Reference", "Kontakt"];
+
+/* ── Triangle Peak Logo ── */
+function LogoMark() {
+  return (
+    <svg width="44" height="44" viewBox="0 0 56 56" overflow="visible" fill="none">
+      {/* outer triangle */}
+      <polygon
+        points="28,4 52,50 4,50"
+        stroke="#D4AF37"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+        fill="rgba(212,175,55,0.04)"
+        style={{
+          strokeDasharray: 160,
+          strokeDashoffset: 0,
+        }}
+      />
+      {/* inner triangle */}
+      <polygon
+        points="28,16 42,44 14,44"
+        stroke="rgba(212,175,55,0.3)"
+        strokeWidth="0.8"
+        strokeLinejoin="round"
+        fill="rgba(212,175,55,0.03)"
+      />
+      {/* horizontal levels */}
+      <line x1="14" y1="44" x2="42" y2="44" stroke="rgba(212,175,55,0.35)" strokeWidth="0.8"/>
+      <line x1="19" y1="36" x2="37" y2="36" stroke="rgba(212,175,55,0.2)" strokeWidth="0.7"/>
+      {/* apex dot */}
+      <circle cx="28" cy="4" r="2.5" fill="#D4AF37"
+        style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.9))" }}
+      />
+      <circle cx="28" cy="4" r="5" fill="rgba(212,175,55,0.15)"
+        style={{ filter: "blur(3px)" }}
+      />
+    </svg>
+  );
+}
+
+/* ── Animated Logo on mount ── */
+function AnimatedLogo() {
+  const [played, setPlayed] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPlayed(true), 100);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <motion.div
+      className="flex items-center gap-3 cursor-pointer group"
+      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.2 }}
+    >
+      {/* Icon */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.6, rotate: -8 }}
+        animate={{ opacity: 1, scale: 1, rotate: 0 }}
+        transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
+        className="relative flex-shrink-0"
+      >
+        <LogoMark />
+        {/* ambient glow behind icon */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%)",
+            filter: "blur(6px)",
+            animation: "pulseBorder 4s ease-in-out infinite",
+          }}
+        />
+      </motion.div>
+
+      {/* Text */}
+      <div className="flex flex-col leading-none overflow-hidden">
+        {/* ALFA STAV */}
+        <div className="flex items-baseline gap-[5px] overflow-hidden">
+          <motion.span
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.75 }}
+            className="text-[15px] font-black tracking-[0.12em] text-white leading-none"
+          >
+            ALFA
+          </motion.span>
+          <motion.span
+            initial={{ scaleY: 0, opacity: 0 }}
+            animate={{ scaleY: 1, opacity: 1 }}
+            transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1], delay: 1.1 }}
+            className="inline-block w-px h-[11px] bg-[#D4AF37] origin-center mb-[1px]"
+            style={{ boxShadow: "0 0 6px rgba(212,175,55,0.8)" }}
+          />
+          <motion.span
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1], delay: 0.9 }}
+            className="text-[15px] font-extralight tracking-[0.12em] text-[#D4AF37] leading-none"
+            style={{ textShadow: "0 0 20px rgba(212,175,55,0.4)" }}
+          >
+            STAV
+          </motion.span>
+        </div>
+
+        {/* GROUP + sub */}
+        <div className="flex items-center gap-2 mt-[3px] overflow-hidden">
+          <motion.span
+            initial={{ y: 14, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 1.05 }}
+            className="text-[15px] font-black tracking-[0.12em] text-white leading-none"
+          >
+            GROUP
+          </motion.span>
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 1.35 }}
+            className="h-px flex-1 origin-left"
+            style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.5), transparent)", minWidth: 24 }}
+          />
+        </div>
+
+        {/* tagline */}
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 1.6 }}
+          className="text-[6.5px] tracking-[0.28em] text-[#9A9A9A]/50 uppercase mt-[4px] font-light"
+        >
+          Stavební realizace · Mladá Boleslav
+        </motion.span>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("Domů");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const ctaRef = useRef<HTMLButtonElement>(null);
 
+  useEffect(() => { setMounted(true); }, []);
+
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 80);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Magnetic CTA effect
+  /* Magnetic CTA */
   useEffect(() => {
     const el = ctaRef.current;
     if (!el) return;
@@ -26,12 +163,14 @@ export default function Header() {
       const r = el.getBoundingClientRect();
       const x = e.clientX - r.left - r.width / 2;
       const y = e.clientY - r.top - r.height / 2;
-      const dist = Math.hypot(x, y);
-      if (dist < 80) {
-        el.style.transform = `translate(${x * 0.25}px, ${y * 0.25}px)`;
+      if (Math.hypot(x, y) < 90) {
+        el.style.transform = `translate(${x * 0.28}px, ${y * 0.28}px)`;
       }
     };
-    const onLeave = () => { el.style.transform = ""; };
+    const onLeave = () => {
+      el.style.transform = "";
+      el.style.transition = "transform 0.5s cubic-bezier(0.16,1,0.3,1)";
+    };
     window.addEventListener("mousemove", onMove);
     el.addEventListener("mouseleave", onLeave);
     return () => {
@@ -40,115 +179,182 @@ export default function Header() {
     };
   }, []);
 
+  /* Glass card styles — floats when not scrolled, condenses on scroll */
+  const glassStyle: React.CSSProperties = scrolled
+    ? {
+        background: "rgba(5,5,5,0.88)",
+        backdropFilter: "blur(32px) saturate(180%)",
+        WebkitBackdropFilter: "blur(32px) saturate(180%)",
+        borderRadius: "0px",
+        border: "none",
+        borderBottom: "0.5px solid rgba(212,175,55,0.15)",
+        boxShadow: "none",
+        padding: "0 40px",
+        margin: "0",
+        width: "100%",
+      }
+    : {
+        background: "rgba(255,255,255,0.04)",
+        backdropFilter: "blur(28px) saturate(200%)",
+        WebkitBackdropFilter: "blur(28px) saturate(200%)",
+        borderRadius: "16px",
+        border: "0.5px solid rgba(255,255,255,0.1)",
+        boxShadow:
+          "0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2)",
+        padding: "0 32px",
+        margin: "0 auto",
+        width: "calc(100% - 64px)",
+        maxWidth: "1280px",
+      };
+
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
-      style={{
-        background: scrolled ? "rgba(5,5,5,0.92)" : "transparent",
-        backdropFilter: scrolled ? "blur(20px)" : "none",
-        borderBottom: scrolled ? "0.5px solid rgba(255,255,255,0.06)" : "0.5px solid transparent",
-      }}
-    >
-      <div className="flex items-center justify-between px-8 py-4 max-w-screen-xl mx-auto">
-        {/* Logo */}
+    <>
+      {/* Outer fixed strip */}
+      <div
+        className="fixed top-0 left-0 right-0 z-50 flex items-center"
+        style={{
+          padding: scrolled ? "0" : "14px 32px",
+          transition: "padding 0.5s cubic-bezier(0.16,1,0.3,1)",
+        }}
+      >
+        {/* Glass card */}
         <motion.div
-          className="flex items-center gap-3 cursor-pointer group"
-          whileHover={{ scale: 1.02 }}
+          initial={{ y: -100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+          className="flex items-center justify-between w-full"
+          style={{
+            ...glassStyle,
+            height: scrolled ? "56px" : "64px",
+            transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+          }}
         >
-          <div
-            className="w-8 h-8 flex items-center justify-center border border-[#D4AF37] transition-all duration-300"
-            style={{ animation: "pulseBorder 3s infinite" }}
-          >
-            <svg width="16" height="16" viewBox="0 0 20 20" fill="#D4AF37">
-              <path d="M10 2L2 8v10h5v-6h6v6h5V8z" />
-            </svg>
-          </div>
-          <div>
-            <div className="text-[11px] font-black tracking-[0.1em] leading-tight text-white">
-              ALFA
-            </div>
-            <div className="text-[7px] font-normal tracking-[0.2em] text-[#9A9A9A]">
-              STAV COMPANY
-            </div>
-          </div>
-        </motion.div>
+          {/* Logo */}
+          {mounted && <AnimatedLogo />}
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-7">
-          {navLinks.map((link) => (
+          {/* Nav links */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {navLinks.map((link, i) => (
+              <motion.button
+                key={link}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 + i * 0.07, duration: 0.5 }}
+                onClick={() => setActive(link)}
+                className="relative text-[9px] tracking-[0.14em] uppercase font-medium transition-colors duration-200 group py-1"
+                style={{ color: active === link ? "#D4AF37" : "rgba(255,255,255,0.5)" }}
+              >
+                {link}
+                {/* active underline */}
+                <motion.span
+                  className="absolute -bottom-0.5 left-0 h-px bg-[#D4AF37]"
+                  initial={false}
+                  animate={{ width: active === link ? "100%" : "0%" }}
+                  transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                />
+                {/* hover underline */}
+                <span className="absolute -bottom-0.5 left-0 h-px bg-[#D4AF37]/40 w-0 group-hover:w-full transition-all duration-300" />
+              </motion.button>
+            ))}
+          </nav>
+
+          {/* CTA */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.3, duration: 0.5 }}
+            className="hidden lg:block"
+          >
             <button
-              key={link}
-              onClick={() => setActive(link)}
-              className="relative text-[9px] tracking-[0.14em] uppercase font-medium transition-colors duration-200 group"
-              style={{ color: active === link ? "#D4AF37" : "#9A9A9A" }}
+              ref={ctaRef}
+              className="relative overflow-hidden group"
+              style={{
+                border: "0.5px solid rgba(212,175,55,0.5)",
+                borderRadius: "4px",
+                padding: "9px 20px",
+                background: "rgba(212,175,55,0.06)",
+                transition: "transform 0.3s cubic-bezier(0.16,1,0.3,1)",
+              }}
             >
-              {link}
+              {/* fill on hover */}
               <span
-                className="absolute -bottom-0.5 left-0 h-px bg-[#D4AF37] transition-all duration-300"
-                style={{ width: active === link ? "100%" : "0%" }}
+                className="absolute inset-0 bg-[#D4AF37] -translate-x-full group-hover:translate-x-0 transition-transform duration-300"
+                style={{ transformOrigin: "left" }}
               />
-              <span className="absolute -bottom-0.5 left-0 h-px bg-[#D4AF37] w-0 group-hover:w-full transition-all duration-300 opacity-60" />
+              <span
+                className="relative z-10 text-[9px] tracking-[0.16em] uppercase font-bold group-hover:text-[#050505] transition-colors duration-300"
+                style={{ color: "#D4AF37" }}
+              >
+                Poptat realizaci
+              </span>
             </button>
-          ))}
-        </nav>
+          </motion.div>
 
-        {/* CTA */}
-        <div className="hidden md:block">
+          {/* Mobile hamburger */}
           <button
-            ref={ctaRef}
-            className="relative overflow-hidden border border-[#D4AF37] text-[#D4AF37] text-[9px] tracking-[0.14em] uppercase font-bold px-5 py-2.5 transition-all duration-300 group"
-            style={{ transitionProperty: "transform, color" }}
+            className="lg:hidden flex flex-col justify-center gap-[5px] p-2 ml-auto"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Menu"
           >
-            <span
-              className="absolute inset-0 bg-[#D4AF37] transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"
-              style={{ transformOrigin: "left" }}
+            <motion.span
+              animate={mobileOpen ? { rotate: 45, y: 7 } : { rotate: 0, y: 0 }}
+              className="block h-px w-5 bg-white origin-center"
+              transition={{ duration: 0.3 }}
             />
-            <span className="relative z-10 group-hover:text-[#050505] transition-colors duration-300">
-              Poptat realizaci
-            </span>
+            <motion.span
+              animate={mobileOpen ? { opacity: 0, scaleX: 0 } : { opacity: 1, scaleX: 1 }}
+              className="block h-px w-5 bg-white"
+              transition={{ duration: 0.2 }}
+            />
+            <motion.span
+              animate={mobileOpen ? { rotate: -45, y: -7 } : { rotate: 0, y: 0 }}
+              className="block h-px w-5 bg-white origin-center"
+              transition={{ duration: 0.3 }}
+            />
           </button>
-        </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Menu"
-        >
-          <span className={`block h-px w-6 bg-white transition-all duration-300 ${mobileOpen ? "rotate-45 translate-y-[9px]" : ""}`} />
-          <span className={`block h-px w-6 bg-white transition-all duration-300 ${mobileOpen ? "opacity-0" : ""}`} />
-          <span className={`block h-px w-6 bg-white transition-all duration-300 ${mobileOpen ? "-rotate-45 -translate-y-[5px]" : ""}`} />
-        </button>
+        </motion.div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="md:hidden overflow-hidden bg-[#050505] border-t border-[rgba(255,255,255,0.06)]"
+            className="fixed z-40 left-4 right-4 lg:hidden overflow-hidden"
+            style={{
+              top: "90px",
+              background: "rgba(8,6,2,0.92)",
+              backdropFilter: "blur(32px)",
+              WebkitBackdropFilter: "blur(32px)",
+              border: "0.5px solid rgba(255,255,255,0.08)",
+              borderRadius: "14px",
+              boxShadow: "0 20px 60px rgba(0,0,0,0.7)",
+            }}
           >
             <div className="flex flex-col py-4">
               {navLinks.map((link, i) => (
                 <motion.button
                   key={link}
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -16 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.07 }}
-                  className="text-left px-8 py-3 text-[11px] tracking-[0.14em] uppercase text-[#9A9A9A] hover:text-[#D4AF37] transition-colors"
+                  transition={{ delay: i * 0.06 }}
+                  className="text-left px-6 py-3.5 text-[10px] tracking-[0.16em] uppercase transition-colors duration-200"
+                  style={{ color: active === link ? "#D4AF37" : "rgba(255,255,255,0.55)" }}
                   onClick={() => { setActive(link); setMobileOpen(false); }}
                 >
                   {link}
                 </motion.button>
               ))}
-              <div className="px-8 pt-2">
-                <button className="w-full border border-[#D4AF37] text-[#D4AF37] text-[9px] tracking-[0.14em] uppercase font-bold py-3 mt-2">
+              <div className="px-6 pt-2 pb-4">
+                <div className="h-px bg-white/5 mb-4" />
+                <button
+                  className="w-full py-3 text-[9px] tracking-[0.16em] uppercase font-bold text-[#050505] bg-[#D4AF37]"
+                  style={{ borderRadius: "4px" }}
+                  onClick={() => setMobileOpen(false)}
+                >
                   Poptat realizaci
                 </button>
               </div>
@@ -156,6 +362,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </>
   );
 }

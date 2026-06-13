@@ -28,7 +28,7 @@ export default function Footer() {
               </div>
               <div>
                 <div className="text-[11px] font-black tracking-[0.1em]">ALFA</div>
-                <div className="text-[7px] text-[#9A9A9A] tracking-[0.2em]">STAV COMPANY</div>
+                <div className="text-[7px] text-[#9A9A9A] tracking-[0.2em]">STAV GROUP</div>
               </div>
             </div>
             <p className="text-[10px] text-[#9A9A9A] leading-relaxed mb-4">
@@ -66,7 +66,7 @@ export default function Footer() {
         style={{ borderColor: "rgba(255,255,255,0.05)" }}
       >
         <div className="text-[8px] text-[#9A9A9A]/40 tracking-wide">
-          © {new Date().getFullYear()} ALFA STAV COMPANY s.r.o. &nbsp;|&nbsp; Všechna práva vyhrazena
+          © {new Date().getFullYear()} ALFA STAV GROUP s.r.o. &nbsp;|&nbsp; Všechna práva vyhrazena
         </div>
         <div className="flex items-center gap-1 text-[8px] text-[#9A9A9A]/30 tracking-wide">
           Jednatel: <span className="text-[#9A9A9A]/50 ml-1">Jan Baran</span>
