@@ -192,7 +192,7 @@ export default function Header() {
   return (
     <>
       {/* Fixed outer strip — always 14px padding top */}
-      <div className="fixed top-0 left-0 right-0 z-50 flex items-center" style={{ padding: "10px 16px" }} className="sm:!p-[14px_32px]">
+      <div className="fixed top-0 left-0 right-0 z-50 flex items-center" style={{ padding: "10px 16px" }}>
         <motion.div
           initial={{ y: -100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
