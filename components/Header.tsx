@@ -171,14 +171,22 @@ export default function Header() {
     backdropFilter: "blur(28px) saturate(200%)",
     WebkitBackdropFilter: "blur(28px) saturate(200%)",
     borderRadius: "16px",
-    border: "0.5px solid rgba(255,255,255,0.1)",
-    boxShadow:
-      "0 8px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.2)",
+    border: "0.5px solid rgba(255,255,255,0.08)",
+    borderBottom: "0.5px solid rgba(212,175,55,0.3)",
+    boxShadow: [
+      "0 8px 40px rgba(0,0,0,0.5)",
+      "inset 0 1px 0 rgba(255,255,255,0.08)",
+      "inset 0 -1px 0 rgba(0,0,0,0.2)",
+      "0 1px 0 rgba(212,175,55,0.2)",
+      "0 4px 20px rgba(212,175,55,0.07)",
+    ].join(", "),
     padding: "0 32px",
     height: "64px",
     width: "calc(100% - 64px)",
     maxWidth: "1280px",
     margin: "0 auto",
+    position: "relative",
+    overflow: "hidden",
   };
 
   return (
@@ -192,6 +200,42 @@ export default function Header() {
           className="flex items-center justify-between w-full"
           style={glassStyle}
         >
+          {/* ── Glow board line — bottom edge ── */}
+          <div
+            className="absolute bottom-0 left-0 right-0 pointer-events-none"
+            style={{ zIndex: 10 }}
+          >
+            {/* Static gold line */}
+            <div style={{
+              height: "1px",
+              background: "linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.15) 10%, rgba(212,175,55,0.55) 30%, rgba(240,200,74,0.9) 50%, rgba(212,175,55,0.55) 70%, rgba(212,175,55,0.15) 90%, transparent 100%)",
+              boxShadow: "0 0 8px rgba(212,175,55,0.5), 0 0 20px rgba(212,175,55,0.2)",
+            }} />
+            {/* Animated travel pulse */}
+            <motion.div
+              style={{
+                position: "absolute",
+                top: 0,
+                height: "1px",
+                width: "120px",
+                background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.9), rgba(212,175,55,1), rgba(255,255,255,0.9), transparent)",
+                boxShadow: "0 0 12px rgba(212,175,55,0.9), 0 0 24px rgba(212,175,55,0.5)",
+              }}
+              animate={{ left: ["-120px", "calc(100% + 120px)"] }}
+              transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 1.5 }}
+            />
+          </div>
+
+          {/* ── Top inset glow ── */}
+          <div
+            className="absolute top-0 left-[15%] right-[15%] pointer-events-none"
+            style={{
+              height: "1px",
+              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)",
+              zIndex: 10,
+            }}
+          />
+
           {/* Logo */}
           {mounted && <AnimatedLogo />}
 
