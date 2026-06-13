@@ -9,9 +9,10 @@ export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
   const counterRef = useCounter(25, 1800);
 
-  // Particle canvas
+  // Particle canvas (nad fotkou)
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -29,27 +30,17 @@ export default function Hero() {
     window.addEventListener("resize", resize);
 
     type Particle = { x: number; y: number; r: number; vx: number; vy: number; alpha: number };
-    const particles: Particle[] = Array.from({ length: 70 }, () => ({
+    const particles: Particle[] = Array.from({ length: 55 }, () => ({
       x: Math.random() * canvas.width,
       y: Math.random() * canvas.height,
-      r: Math.random() * 1.8 + 0.2,
-      vx: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.3,
-      alpha: Math.random() * 0.55 + 0.1,
+      r: Math.random() * 1.4 + 0.2,
+      vx: (Math.random() - 0.5) * 0.25,
+      vy: (Math.random() - 0.5) * 0.25,
+      alpha: Math.random() * 0.45 + 0.08,
     }));
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Grid lines
-      ctx.strokeStyle = "rgba(212,175,55,0.025)";
-      ctx.lineWidth = 0.5;
-      for (let x = 0; x < canvas.width; x += 60) {
-        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, canvas.height); ctx.stroke();
-      }
-      for (let y = 0; y < canvas.height; y += 60) {
-        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(canvas.width, y); ctx.stroke();
-      }
 
       particles.forEach((p) => {
         p.x += p.vx; p.y += p.vy;
@@ -63,24 +54,22 @@ export default function Hero() {
         ctx.fillStyle = `rgba(212,175,55,${p.alpha})`;
         ctx.fill();
 
-        // Mouse connection
         const dm = Math.hypot(p.x - mx, p.y - my);
-        if (dm < 140) {
+        if (dm < 130) {
           ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mx, my);
-          ctx.strokeStyle = `rgba(212,175,55,${0.1 * (1 - dm / 140)})`;
+          ctx.strokeStyle = `rgba(212,175,55,${0.09 * (1 - dm / 130)})`;
           ctx.lineWidth = 0.5; ctx.stroke();
         }
       });
 
-      // Particle connections
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const d = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
-          if (d < 100) {
+          if (d < 90) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(212,175,55,${0.06 * (1 - d / 100)})`;
+            ctx.strokeStyle = `rgba(212,175,55,${0.05 * (1 - d / 90)})`;
             ctx.lineWidth = 0.4; ctx.stroke();
           }
         }
@@ -107,14 +96,14 @@ export default function Hero() {
     };
   }, []);
 
-  // Parallax on scroll
+  // Parallax fotky při scrollu
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero) return;
+    const img = imgRef.current;
+    if (!hero || !img) return;
     const onScroll = () => {
       const y = window.scrollY;
-      const roofEl = hero.querySelector<HTMLDivElement>(".hero-roof");
-      if (roofEl) roofEl.style.transform = `translateY(${y * 0.15}px)`;
+      img.style.transform = `scale(1.12) translateY(${y * 0.18}px)`;
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -135,36 +124,48 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden"
       style={{ background: "#050505" }}
     >
-      {/* Canvas */}
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" style={{ zIndex: 1 }} />
+      {/* ── HERO FOTO na celé pozadí ── */}
+      <div className="absolute inset-0" style={{ zIndex: 1 }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          ref={imgRef}
+          src="/alfahero.png"
+          alt="ALFA STAV COMPANY — luxusní střecha při západu slunce"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+          style={{ transform: "scale(1.12)", transformOrigin: "center 40%" }}
+        />
 
-      {/* Roof shape */}
-      <div
-        className="hero-roof absolute right-0 top-0 w-[52%] h-full"
-        style={{
-          background: "linear-gradient(160deg,#2d1f08 0%,#1a1208 30%,#0a0805 70%,#050505 100%)",
-          clipPath: "polygon(10% 0,100% 0,100% 100%,0 100%)",
-          zIndex: 2,
-        }}
-      >
+        {/* Tmavý overlay zleva – text čitelný */}
         <div
           className="absolute inset-0"
           style={{
-            background: "repeating-linear-gradient(168deg,rgba(212,175,55,0.04) 0,rgba(212,175,55,0.04) 1px,transparent 1px,transparent 28px)",
+            background: "linear-gradient(90deg,rgba(5,5,5,0.93) 0%,rgba(5,5,5,0.72) 45%,rgba(5,5,5,0.28) 75%,rgba(5,5,5,0.08) 100%)",
           }}
         />
-        {/* Roof highlight */}
+
+        {/* Tmavý overlay zdola */}
         <div
-          className="absolute top-0 left-0 w-full h-full"
+          className="absolute inset-0"
           style={{
-            background: "linear-gradient(160deg,rgba(212,175,55,0.06) 0%,transparent 40%)",
+            background: "linear-gradient(0deg,rgba(5,5,5,0.85) 0%,rgba(5,5,5,0.2) 30%,transparent 60%)",
+          }}
+        />
+
+        {/* Zlatý tón — westernový sunset efekt */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(135deg,rgba(212,175,55,0.05) 0%,transparent 50%,rgba(180,100,20,0.08) 100%)",
           }}
         />
       </div>
 
-      {/* Overlays */}
-      <div className="absolute inset-0 z-[3]" style={{ background: "linear-gradient(90deg,rgba(5,5,5,0.97) 0%,rgba(5,5,5,0.75) 50%,rgba(5,5,5,0.1) 100%)" }} />
-      <div className="absolute inset-0 z-[3]" style={{ background: "linear-gradient(0deg,rgba(5,5,5,0.8) 0%,transparent 50%)" }} />
+      {/* Particle canvas nad fotkou */}
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        style={{ zIndex: 2 }}
+      />
 
       {/* Mouse glow */}
       <div
@@ -172,14 +173,14 @@ export default function Hero() {
         className="absolute pointer-events-none"
         style={{
           width: 400, height: 400,
-          background: "radial-gradient(circle,rgba(212,175,55,0.07) 0%,transparent 70%)",
-          zIndex: 4,
-          transition: "left 0.05s, top 0.05s",
+          background: "radial-gradient(circle,rgba(212,175,55,0.06) 0%,transparent 70%)",
+          zIndex: 3,
+          transition: "left 0.06s, top 0.06s",
           top: "30%", left: "10%",
         }}
       />
 
-      {/* Hero Content */}
+      {/* ── HERO OBSAH ── */}
       <motion.div
         className="relative z-[5] px-8 md:px-16 max-w-screen-xl mx-auto w-full pt-28"
         variants={containerVariants}
@@ -195,7 +196,7 @@ export default function Hero() {
             </span>
           </motion.div>
 
-          {/* Main headline */}
+          {/* Hlavní nadpis */}
           <div className="overflow-hidden mb-6">
             <motion.h1
               variants={itemVariants}
@@ -207,17 +208,17 @@ export default function Hero() {
             </motion.h1>
           </div>
 
-          {/* Subheadline */}
+          {/* Podnadpis */}
           <motion.p variants={itemVariants} className="text-[#9A9A9A] text-sm leading-relaxed mb-10 max-w-sm">
             Komplexní stavební realizace, střechy,<br />
             rekonstrukce a novostavby<br />
             v Mladé Boleslavi a širokém okolí.
           </motion.p>
 
-          {/* Buttons */}
+          {/* Tlačítka */}
           <motion.div variants={itemVariants} className="flex flex-wrap gap-3">
             <motion.button
-              className="group flex items-center gap-2.5 text-[#050505] text-[9px] tracking-[0.15em] uppercase font-black px-7 py-4 transition-all duration-200"
+              className="group flex items-center gap-2.5 text-[#050505] text-[9px] tracking-[0.15em] uppercase font-black px-7 py-4"
               style={{ background: "#D4AF37" }}
               whileHover={{ scale: 1.03, backgroundColor: "#F0C84A" }}
               whileTap={{ scale: 0.98 }}
@@ -227,7 +228,7 @@ export default function Hero() {
             </motion.button>
 
             <motion.button
-              className="flex items-center gap-2 text-white text-[9px] tracking-[0.15em] uppercase font-semibold px-7 py-4 border border-white/20 transition-all duration-300 hover:border-white/50 hover:bg-white/4"
+              className="flex items-center gap-2 text-white text-[9px] tracking-[0.15em] uppercase font-semibold px-7 py-4 border border-white/20 transition-all duration-300 hover:border-white/50 hover:bg-white/5"
               whileTap={{ scale: 0.98 }}
             >
               NAŠE REALIZACE
@@ -235,7 +236,7 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* Stats block */}
+        {/* Stats blok */}
         <motion.div
           variants={itemVariants}
           className="absolute right-8 md:right-16 bottom-24 text-right"
@@ -245,7 +246,7 @@ export default function Hero() {
             style={{
               fontSize: "clamp(48px,8vw,80px)",
               color: "#D4AF37",
-              textShadow: "0 0 60px rgba(212,175,55,0.4)",
+              textShadow: "0 0 60px rgba(212,175,55,0.5)",
             }}
           >
             <span ref={counterRef}>0</span>+
@@ -260,7 +261,7 @@ export default function Hero() {
         </motion.div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indikátor */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
