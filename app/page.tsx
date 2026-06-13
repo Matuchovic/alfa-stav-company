@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import CityBuild from "@/components/CityBuild";
 import Services from "@/components/Services";
 import Numbers from "@/components/Numbers";
 import Projects from "@/components/Projects";
@@ -14,6 +15,7 @@ export default function Home() {
     <main>
       <Header />
       <Hero />
+      <CityBuild />
       <Services />
       <Numbers />
       <Projects />
