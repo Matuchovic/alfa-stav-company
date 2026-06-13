@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import ScrollProgress from "@/components/ScrollProgress";
+import ParallaxBackground from "@/components/ParallaxBackground";
 
 export const metadata: Metadata = {
   title: "ALFA STAV GROUP | Stavební firma Mladá Boleslav",
@@ -19,10 +20,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="cs">
-      <body>
+      <body style={{ background: "#050505" }}>
         <SmoothScroll>
           <ScrollProgress />
-          {children}
+          {/* Global parallax background — fixed behind everything */}
+          <ParallaxBackground />
+          {/* Page content sits on top via z-index */}
+          <div className="relative" style={{ zIndex: 1 }}>
+            {children}
+          </div>
         </SmoothScroll>
       </body>
     </html>
